@@ -15,7 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -49,7 +49,7 @@ fun ContadorCliques() {
     /*
         TODO(3) Declarar a variável abaixo
     */
-    var contador by remember { mutableStateOf(0) }
+    var contador by remember { mutableIntStateOf(0) }
 
     /*
         TODO(4) Adicionar uma Column

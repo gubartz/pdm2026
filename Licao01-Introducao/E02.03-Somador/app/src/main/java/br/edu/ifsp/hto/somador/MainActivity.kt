@@ -43,8 +43,7 @@ fun Somador() {
     val tamanhoFonte = 24.sp
     var numero1 by remember { mutableStateOf("") }
     var numero2 by remember { mutableStateOf("") }
-    var textoResultado by remember { mutableStateOf<String?>(null) }
-
+    var resultado by remember { mutableStateOf<Double?>(null) }
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -81,19 +80,33 @@ fun Somador() {
             },
         )
 
-        Button(
-            onClick = {
-                if (numero1.toDoubleOrNull() != null && numero2.toDoubleOrNull() != null) {
-                    textoResultado =
-                        "A soma de $numero1 + $numero2 é: ${numero1.toDouble() + numero2.toDouble()}"
-                }
-            }
-        ) {
-            Text("Somar")
+        if (numero1.toDoubleOrNull() != null && numero2.toDoubleOrNull() != null) {
+            resultado = numero1.toDouble() + numero2.toDouble()
+        } else {
+            resultado = null
         }
 
-        // Operador elvis
-        Text(textoResultado ?: "")
+        /*
+        TODO(1) Adicionar o if dentro do text. A ideia é que o campo de texto ocupe um espaço na UI
+         ainda que vazio quando não houver um resultado válido
+         */
+        Text(
+            if (resultado != null)
+                "A soma de $numero1 + $numero2 é: $resultado"
+            else
+                ""
+        )
+
+        /*
+        TODO(2) Outra opção idiomática do kotlin é usar o let. O código da lambda só é executado se
+         o contéudo da variável resultado não for nulo. O ?: é o operador elvis, que retorna o valor
+         da esquerda se ele for não nulo, caso contrário o da direita.
+         */
+        Text(
+            resultado?.let {
+                "A soma de $numero1 + $numero2 é: $it"
+            } ?: ""
+        )
     }
 }
 

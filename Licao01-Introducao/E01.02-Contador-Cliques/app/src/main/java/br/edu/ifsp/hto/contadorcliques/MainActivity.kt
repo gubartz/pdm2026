@@ -13,10 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ContadorCliques() {
-    var contador by remember { mutableStateOf(0) }
+    var contador by remember { mutableIntStateOf(0) }
     val tamanhoFonte = 24.sp
 
     Column(

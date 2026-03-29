@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,7 +43,6 @@ fun Somador() {
     var numero1 by remember { mutableStateOf("") }
     var numero2 by remember { mutableStateOf("") }
     var resultado by remember { mutableStateOf<Double?>(null) }
-
 
     Column(
         verticalArrangement = Arrangement.Top,
@@ -81,18 +79,12 @@ fun Somador() {
             },
         )
 
-        Button(
-            onClick = {
-                if (numero1.toDoubleOrNull() != null && numero2.toDoubleOrNull() != null) {
-                    resultado = numero1.toDouble() + numero2.toDouble()
-                }
-            }
-        ) {
-            Text("Somar")
-        }
-
-        // Problema
-        if (resultado != null) {
+        /*
+        TODO(1) Ao invés de termos um botão, podemos realizar a conta tão logo existam dois valores
+         válidos nos campos de texto. Isso é possível, pois as variáveis são observáveis.
+         */
+        if (numero1.toDoubleOrNull() != null && numero2.toDoubleOrNull() != null) {
+            resultado = numero1.toDouble() + numero2.toDouble()
             Text("A soma de $numero1 + $numero2 é: $resultado")
         }
     }
