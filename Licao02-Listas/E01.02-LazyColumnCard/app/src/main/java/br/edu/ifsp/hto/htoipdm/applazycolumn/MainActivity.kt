@@ -7,15 +7,20 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.AbsoluteAlignment
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -30,12 +35,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AppLazyColumnTheme {
-                /*
-                TODO(5) Colocamos o nosso composable me um Box. O Box é um conteiner que permite
-                 posicionar elementos dentro dele. O safeDrawingPadding adiciona automaticamente
-                 espaçamento (padding) para evitar que o conteúdo fique por baixo de áreas do
-                 sistema, como barra de status (topo), etc.
-                 */
                 Box(
                     modifier = Modifier.safeDrawingPadding()
                 ) {
@@ -48,11 +47,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ListaNomes() {
-    /*
-    TODO(6) Utilizar a função getNomes para recuperar a lista de nomes da função correspondente no
-     arquivo ListaNomes.kt. A lista de nomes poderia vir de um banco de dados local ou webservice,
-     por exemplo, mas aqui deixamos fixa.
-     */
     val nomes = getNomes()
 
     Column(
@@ -68,22 +62,29 @@ fun ListaNomes() {
             )
         )
 
-        /*
-        TODO(7) Adicionar o LazyColumn, que é uma lista vertical eficiente e com rolagem que só
-         renderiza os itens que estão visíveis na tela.
-         */
         LazyColumn {
-            /*
-            TODO(8) Adicionar a função items(items: List<T>), que é uma função que recebe uma lista
-             de itens e renderiza cada um deles. Cuicado, pois existem outras funções items, que
-             recebem parâmetros diferentes.
-             */
             items(nomes) { nome ->
-                Text(text = nome)
                 /*
-                TODO(9) Adicionar um separador entre os itens da lista.
+                TODO(1) Utilizar o componente Card par amostrar cada elemento da LazyColumn.
                  */
-                HorizontalDivider(modifier = Modifier.padding(bottom = 8.dp))
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                ) {
+                    /*
+                    TODO(2) Adicionar uma coluna para ser um container dos elementos. O padding
+                     adiciona espaçamento do conteúdo do elemento às bordas.
+                     */
+                    Column(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .fillMaxSize()
+                    ) {
+                        Text(text = nome)
+                    }
+
+                }
             }
         }
 
