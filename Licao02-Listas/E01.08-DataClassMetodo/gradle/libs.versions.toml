@@ -1,17 +1,21 @@
 [versions]
 agp = "9.0.1"
+# TODO(2) Adicionar a versão abaixo
+pdm_components = "0.0.1"
 coreKtx = "1.18.0"
-desugar_jdk_libs = "2.0.4"
+desugar_jdk_libs = "2.1.5"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.10.0"
 activityCompose = "1.13.0"
-kotlin = "2.0.21"
-composeBom = "2024.09.00"
+kotlin = "2.3.20"
+composeBom = "2026.03.01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+# TODO(3) Adicionar a linha abaixo
+pdm_components = { module = "com.github.gubartz:pdm_components", version.ref = "pdm_components" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

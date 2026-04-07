@@ -16,6 +16,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        // TODO(1) Adicionar suporte o jitpack para o componente de seleção de datas (datepicker)
+        maven { url = uri("https://jitpack.io") }
     }
 }
 

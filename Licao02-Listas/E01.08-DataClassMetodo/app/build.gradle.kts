@@ -55,4 +55,6 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+    // TODO(4) Adicionar a linha abaixo para o componente de seleção de datas (datepicker).
+    implementation(libs.pdm.components)
 }

@@ -58,7 +58,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     /*
-    TODO(3) Adiconar a linha abaixo, pois vamos utilizar a biblioteca LocalDate do java8+. Outra
+    TODO(3) Adicionar a linha abaixo, pois vamos utilizar a biblioteca LocalDate do java8+. Outra
      opção seria trocar o minSdk para algum avalor a partir de 26
      */
     coreLibraryDesugaring(libs.desugar.jdk.libs)
