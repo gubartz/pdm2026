@@ -1,7 +1,7 @@
 [versions]
 agp = "9.0.1"
 # TODO(2) Adicionar a versão abaixo
-pdm_components = "0.0.1"
+pdm_components = "0.0.3"
 coreKtx = "1.18.0"
 desugar_jdk_libs = "2.1.5"
 junit = "4.13.2"

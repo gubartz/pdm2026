@@ -4,10 +4,6 @@ import androidx.compose.runtime.mutableStateListOf
 import br.edu.ifsp.hto.htoipdm.applazycolumn.data.model.Pessoa
 import java.time.LocalDate
 
-/*
-TODO(7) Essa função retorna uma lista de objetos da data class Pessoa, com o nome e data de
- nascimento.
- */
 fun getPessoas(): List<Pessoa> {
     val pessoas = listOf(
         Pessoa(nome = "Ana", dataNascimento = LocalDate.of(2003, 12, 2)),

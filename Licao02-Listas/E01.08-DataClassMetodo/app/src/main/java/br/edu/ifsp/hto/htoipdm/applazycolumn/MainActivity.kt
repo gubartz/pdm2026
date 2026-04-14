@@ -33,7 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.edu.ifsp.hto.htoipdm.applazycolumn.data.model.Pessoa
 import br.edu.ifsp.hto.htoipdm.applazycolumn.ui.theme.AppLazyColumnTheme
-import br.edu.ifsp.hto.htoipdm.ui_components.DataPickerField
+import br.edu.ifsp.hto.htoipdm.ui_components.DatePickerField
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -95,7 +95,7 @@ fun ListaAniversarios() {
             )
 
             // TODO(8) Adicionar o componente DataPickerField.
-            DataPickerField(
+            DatePickerField(
                 label = "Data de Nascimento",
                 value = selectedDate,
                 onValueChange = {

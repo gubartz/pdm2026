@@ -1,6 +1,5 @@
 package br.edu.ifsp.hto.htoipdm.applazycolumn.data.mock
 
-import androidx.compose.runtime.mutableStateListOf
 import br.edu.ifsp.hto.htoipdm.applazycolumn.data.model.Pessoa
 import java.time.LocalDate
 

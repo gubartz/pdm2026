@@ -31,9 +31,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-        /*
-        TODO(4) Adiconar a linha abaixo, pois vamos utilizar a biblioteca LocalDate do java8+.
-         */
         isCoreLibraryDesugaringEnabled = true
     }
     buildFeatures {
@@ -57,9 +54,5 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    /*
-    TODO(3) Adicionar a linha abaixo, pois vamos utilizar a biblioteca LocalDate do java8+. Outra
-     opção seria trocar o minSdk para algum avalor a partir de 26
-     */
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 }
