@@ -26,17 +26,19 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import br.edu.ifsp.hto.htoipdm.applazycolumn.data.local.PessoaDAOImpl
-import br.edu.ifsp.hto.htoipdm.applazycolumn.data.model.Pessoa
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import br.edu.ifsp.hto.htoipdm.applazycolumn.data.datasource.DatabaseProvider
+import br.edu.ifsp.hto.htoipdm.applazycolumn.data.repository.PessoaRepository
 import br.edu.ifsp.hto.htoipdm.applazycolumn.ui.theme.AppLazyColumnTheme
 import br.edu.ifsp.hto.htoipdm.ui_components.DatePickerField
 import java.time.LocalDate
@@ -62,14 +64,22 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun ListaAniversarios() {
-    val pessoaDAO = remember { PessoaDAOImpl() }
-    val pessoas = pessoaDAO.listar()
+    val context = LocalContext.current
 
-    val dateFormatter =
+    val pessoaViewModel = viewModel<PessoaViewModel> {
+        PessoaViewModel(
+            pessoaRepository = PessoaRepository(
+                DatabaseProvider.getDatabase(context.applicationContext).pessoaDAO()
+            )
+        )
+    }
+
+    val pessoas by pessoaViewModel.pessoas.collectAsStateWithLifecycle()
+
+    val locale = LocalConfiguration.current.locales[0]
+    val dateFormatter = remember(locale) {
         DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.getDefault())
-    var nome by remember { mutableStateOf("") }
-    var selectedDate by remember { mutableStateOf<LocalDate?>(null) }
-    var pessoaEdicao by remember { mutableStateOf<Pessoa?>(null) }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -92,9 +102,9 @@ fun ListaAniversarios() {
         ) {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
-                value = nome,
+                value = pessoaViewModel.nome,
                 onValueChange = {
-                    nome = it
+                    pessoaViewModel.onNomeChange(it)
                 },
                 label = {
                     Text(text = "Nome")
@@ -103,9 +113,9 @@ fun ListaAniversarios() {
 
             DatePickerField(
                 label = "Data de Nascimento",
-                value = selectedDate,
+                value = pessoaViewModel.dataNascimento,
                 onValueChange = {
-                    selectedDate = it
+                    pessoaViewModel.onDataNascimentoChange(it)
                 },
                 maxDate = LocalDate.now()
             )
@@ -113,25 +123,10 @@ fun ListaAniversarios() {
 
         Button(
             onClick = {
-                if (nome.isBlank() || selectedDate == null) return@Button
-
-                selectedDate?.let { date ->
-                    pessoaEdicao?.let {
-                        pessoaDAO.atualizar(
-                            it.copy(
-                                nome = nome,
-                                dataNascimento = date
-                            )
-                        )
-                    } ?: pessoaDAO.inserir(nome, date)
-                }
-
-                nome = ""
-                selectedDate = null
-                pessoaEdicao = null
+                pessoaViewModel.salvar()
             }
         ) {
-            Text(text = if (pessoaEdicao == null) "Adicionar" else "Editar")
+            Text(text = if (pessoaViewModel.modoEdicao) "Editar" else "Salvar")
         }
 
         HorizontalDivider(modifier = Modifier.padding(8.dp))
@@ -144,9 +139,9 @@ fun ListaAniversarios() {
                         .padding(8.dp)
                         .clickable(
                             onClick = {
-                                nome = pessoa.nome
-                                selectedDate = pessoa.dataNascimento
-                                pessoaEdicao = pessoa
+                                pessoaViewModel.onNomeChange(pessoa.nome)
+                                pessoaViewModel.onDataNascimentoChange(pessoa.dataNascimento)
+                                pessoaViewModel.idPessoaEdicao = pessoa.id
                             }
                         )
                 ) {
@@ -176,7 +171,7 @@ fun ListaAniversarios() {
                         }
                         Button(
                             onClick = {
-                                pessoaDAO.remover(id = pessoa.id)
+                                pessoaViewModel.remover(id = pessoa.id)
                             }
                         ) {
                             Icon(Icons.Default.Delete, contentDescription = "Delete")
