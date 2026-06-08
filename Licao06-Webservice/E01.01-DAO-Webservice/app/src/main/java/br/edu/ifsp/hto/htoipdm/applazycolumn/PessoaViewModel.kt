@@ -18,7 +18,7 @@ import java.time.LocalDate
 class PessoaViewModel() : ViewModel() {
 
     private val repository =
-        PessoaRepository(ApiClient.pessoaService)
+        PessoaRepository()
 
     private val _pessoas = MutableStateFlow<List<Pessoa>>(emptyList())
 
@@ -56,19 +56,18 @@ class PessoaViewModel() : ViewModel() {
 
     fun salvar() {
         viewModelScope.launch {
+            val id = idPessoaEdicao ?: 0
+
             dataNascimento?.let {
                 repository.inserir(
+                    id = id,
                     nome = nome,
                     dataNascimento = it
                 )
+                nome = ""
+                dataNascimento = null
                 carregar()
             } ?: return@launch
-        }
-    }
-
-    fun atualizar() {
-        viewModelScope.launch {
-
         }
     }
 
