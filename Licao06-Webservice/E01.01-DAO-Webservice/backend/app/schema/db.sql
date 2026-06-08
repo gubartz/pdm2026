@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS pessoa;
+
+CREATE TABLE pessoa(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    data_nascimento TIMESTAMP NOT NULL
+);
