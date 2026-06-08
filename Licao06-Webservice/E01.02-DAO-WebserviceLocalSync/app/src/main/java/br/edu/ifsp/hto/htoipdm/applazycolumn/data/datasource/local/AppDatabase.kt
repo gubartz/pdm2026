@@ -1,4 +1,4 @@
-package br.edu.ifsp.hto.htoipdm.applazycolumn.data.datasource
+package br.edu.ifsp.hto.htoipdm.applazycolumn.data.datasource.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

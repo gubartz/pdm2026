@@ -26,11 +26,10 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,7 +43,6 @@ import br.edu.ifsp.hto.htoipdm.ui_components.DatePickerField
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.Locale
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,10 +74,10 @@ fun ListaAniversarios() {
 
     val pessoas by pessoaViewModel.pessoas.collectAsStateWithLifecycle()
 
-    val locale = LocalConfiguration.current.locales[0]
-    val dateFormatter = remember(locale) {
-        DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT).withLocale(Locale.getDefault())
-    }
+    val dateFormatter = DateTimeFormatter
+        .ofLocalizedDate(FormatStyle.SHORT)
+        .withLocale(LocalLocale.current.platformLocale)
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -104,7 +102,9 @@ fun ListaAniversarios() {
                 modifier = Modifier.fillMaxWidth(),
                 value = pessoaViewModel.nome,
                 onValueChange = {
-                    pessoaViewModel.onNomeChange(it)
+                    pessoaViewModel.onNomeChange(
+                        valor = it
+                    )
                 },
                 label = {
                     Text(text = "Nome")
@@ -114,9 +114,7 @@ fun ListaAniversarios() {
             DatePickerField(
                 label = "Data de Nascimento",
                 value = pessoaViewModel.dataNascimento,
-                onValueChange = {
-                    pessoaViewModel.onDataNascimentoChange(it)
-                },
+                onValueChange = pessoaViewModel::onDataNascimentoChange,
                 maxDate = LocalDate.now()
             )
         }
