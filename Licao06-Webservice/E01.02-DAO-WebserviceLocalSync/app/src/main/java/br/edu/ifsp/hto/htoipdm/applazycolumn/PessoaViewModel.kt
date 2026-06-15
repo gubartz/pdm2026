@@ -17,8 +17,6 @@ import java.time.LocalDate
 
 class PessoaViewModel(private val pessoaRepository: PessoaRepository) : ViewModel() {
 
-    private val _pessoas = MutableStateFlow<List<Pessoa>>(emptyList())
-
     var idPessoaEdicao by mutableStateOf<Long?>(null)
 
     val modoEdicao: Boolean
@@ -46,7 +44,7 @@ class PessoaViewModel(private val pessoaRepository: PessoaRepository) : ViewMode
         nome = valor
     }
 
-    fun onDataNascimentoChange(valor: LocalDate) {
+    fun onDataNascimentoChange(valor: LocalDate?) {
         dataNascimento = valor
     }
 
@@ -59,6 +57,9 @@ class PessoaViewModel(private val pessoaRepository: PessoaRepository) : ViewMode
                     nome = nome,
                     dataNascimento = it
                 )
+                onDataNascimentoChange(null)
+                onNomeChange("")
+                idPessoaEdicao = null
             } ?: return@launch
         }
     }
