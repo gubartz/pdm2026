@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.map
 import java.time.LocalDate
 import javax.inject.Inject
 
+//TODO(13) Utilizamos a anotação @Inject para injetar as dependências do service e do DAO
 class PessoaRepository @Inject constructor(
+    private val pessoaService: PessoaService,
     private val pessoaDAO: PessoaDAO
 ) {
     fun listar(): Flow<List<Pessoa>> {
@@ -27,9 +29,8 @@ class PessoaRepository @Inject constructor(
     }
 
     suspend fun sincronizar() {
-        val pessoas =
-            ApiClient
-                .pessoaService
+        //TODO(14) Deixar apenas as referências ao pessoaService e não mais ao ApiClient
+        val pessoas = pessoaService
                 .getPessoas()
                 .dataResponse
                 ?: return
@@ -46,7 +47,7 @@ class PessoaRepository @Inject constructor(
     }
 
     suspend fun inserir(id: Long = 0, nome: String, dataNascimento: LocalDate) {
-        val pessoa = ApiClient.pessoaService.inserir(
+        val pessoa = pessoaService.inserir(
             pessoa = Pessoa(
                 id = id,
                 nome = nome,
@@ -68,7 +69,7 @@ class PessoaRepository @Inject constructor(
 
 
     suspend fun removerRemoto(id: Long) {
-        ApiClient.pessoaService.remover(id = id)
+        pessoaService.remover(id = id)
     }
 
     suspend fun remover(id: Long) {

@@ -60,7 +60,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+//TODO(16) Adicionar o parâmetro pessoaViewModel que inicia com hiltViewModel()
 fun ListaAniversarios(pessoaViewModel: PessoaViewModel = hiltViewModel()) {
+    //TODO(17) Não precismos mais criar a viewModel manualmente
     val pessoas by pessoaViewModel.pessoas.collectAsStateWithLifecycle()
 
     val dateFormatter = DateTimeFormatter

@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--TODO(8) Adicionar o android:name registrando a classe MyApplication (linha 9) -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"

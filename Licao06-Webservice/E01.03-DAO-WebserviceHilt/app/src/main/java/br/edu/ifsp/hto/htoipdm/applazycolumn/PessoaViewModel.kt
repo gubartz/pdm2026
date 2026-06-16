@@ -13,6 +13,8 @@ import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
 
+//TODO(15) Anotar a classe com o HiltViewModel. No construtor colocar o @Inject para que o
+// repositório seja injetado.
 @HiltViewModel
 class PessoaViewModel @Inject constructor(private val pessoaRepository: PessoaRepository) :
     ViewModel() {

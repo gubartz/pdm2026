@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.ksp)
+    //TODO(5) Adicionar a linha abaixo
     alias(libs.plugins.hilt.android)
 }
 
@@ -31,8 +32,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
         isCoreLibraryDesugaringEnabled = true
     }
     buildFeatures {
@@ -60,16 +61,14 @@ dependencies {
     implementation(libs.pdm.components)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.runtime)
-
+    //TODO(6) Adicionar as três linhas abaixo
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
-
     implementation(libs.androidx.hilt.navigation.compose)
 }
