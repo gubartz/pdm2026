@@ -1,5 +1,5 @@
 [versions]
-agp = "9.2.1"
+agp = "9.0.0"
 pdm_components = "0.0.3"
 coreKtx = "1.18.0"
 desugar_jdk_libs = "2.1.5"
