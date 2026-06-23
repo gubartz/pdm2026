@@ -15,6 +15,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 
+//TODO(8) Criar um composable que recebe como parâmetro uma lamda. Essa lambda será executada quando
+// a rota da tela for ser acionada. A lambda é um código passado como parêmtro que será executado
+// dentro deste composable.
 @Composable
 fun TelaPrincipalScreen(
     onNavigateResultadoSoma: (numero1: Long, numero2: Long) -> Unit
@@ -49,6 +52,8 @@ fun TelaPrincipalScreen(
         Button(
             onClick = {
                 if (num1.toLongOrNull() != null && num2.toLongOrNull() != null) {
+                    //TODO(9) Aqui chamamos o parâmetro para execução da lambda passando os dois
+                    // números digitados.
                     onNavigateResultadoSoma(num1.toLong(), num2.toLong())
                 }
             }

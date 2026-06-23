@@ -8,7 +8,7 @@ lifecycleRuntimeKtx = "2.11.0"
 activityCompose = "1.13.0"
 kotlin = "2.4.0"
 composeBom = "2026.06.00"
-# TODO(1) Adicionar a linha abaixo
+# TODO(1) Adicionar as duas linha abaixo
 navigation3 = "1.1.3"
 kotlinxSerializationCore = "1.11.0"
 

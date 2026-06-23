@@ -24,7 +24,9 @@ class MainActivity : ComponentActivity() {
             NavegacaoTelasTheme {
                 Box(
                     modifier = Modifier.safeDrawingPadding()
-                ){
+                ) {
+                    //TODO(18) Colocamos aqui o nosso composable referente à navegação e não mais um
+                    // composable referente a uma tela.
                     AppNavigation()
                 }
             }
