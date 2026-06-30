@@ -1,0 +1,35 @@
+from flask import Blueprint, jsonify, request
+from flask_jwt_extended import create_access_token
+
+from app.db import get_db
+from app.model.api_response import ApiResponse
+
+bp = Blueprint("auth", __name__)
+
+
+@bp.post("/auth")
+def login():
+    data = request.get_json()
+    email = data["email"]
+    senha = data["senha"]
+
+    db = get_db()
+
+    sql = """
+    SELECT * FROM usuario
+    WHERE email = :email
+      AND senha = :senha
+    """
+
+    usuario = db.execute(sql, {"email": email, "senha": senha}).fetchone()
+    if not usuario:
+        return jsonify(
+            ApiResponse(
+                dataResponse=None,
+                message=None,
+                response_code=403,
+            ).to_dict()
+        ), 403
+
+    access_token = create_access_token(identity=usuario["id"])
+    return {"access_token": access_token}
