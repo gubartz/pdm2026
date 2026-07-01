@@ -16,9 +16,11 @@ fun AppNavigation() {
         entryProvider = { key ->
             when (key) {
                 is LoginRoute -> NavEntry(key) {
-                    LoginScreen {
-                        backStack.add(TelaPrincipalRoute)
-                    }
+                    LoginScreen(
+                        onLoginSuccess = {
+                            backStack.add(TelaPrincipalRoute)
+                        }
+                    )
                 }
 
                 is TelaPrincipalRoute -> NavEntry(key) {

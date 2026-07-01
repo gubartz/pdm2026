@@ -7,14 +7,14 @@ class LoginRepository @Inject constructor(
     private val tokenManager: TokenManager
 ) {
     suspend fun login(
-        login: String,
+        usuario: String,
         senha: String
     ): Result<LoginResponse> {
 
         return try {
 
             val response = auhService.login(
-                LoginRequest(login, senha)
+                LoginRequest(usuario, senha)
             )
 
             if (response.isSuccessful) {
@@ -30,11 +30,9 @@ class LoginRepository @Inject constructor(
                 }
 
             } else {
-
                 Result.failure(
                     Exception("Invalid username or password")
                 )
-
             }
 
         } catch (e: Exception) {

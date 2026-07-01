@@ -1,41 +1,57 @@
 package br.edu.ifsp.hto.htoipdm.filmes.remote.auth
 
 import android.content.Context
-import androidx.security.crypto.EncryptedSharedPreferences
-import androidx.security.crypto.MasterKey
-import dagger.Module
-import dagger.hilt.InstallIn
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private val Context.dataStore by preferencesDataStore(name = "auth_prefs")
+
 @Singleton
 class TokenManager @Inject constructor(
-    @ApplicationContext context: Context
+    @ApplicationContext private val context: Context
 ) {
 
-    private val masterKey = MasterKey.Builder(context)
-        .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-        .build()
+    @Volatile
+    private var cachedToken: String? = null
 
-    private val prefs = EncryptedSharedPreferences.create(
-        context,
-        "auth_prefs",
-        masterKey,
-        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-    )
-
-    fun saveToken(token: String) {
-        prefs.edit().putString("jwt", token).apply()
+    companion object {
+        private val JWT_KEY = stringPreferencesKey("jwt")
     }
 
-    fun getToken(): String? {
-        return prefs.getString("jwt", null)
+    val token: Flow<String?> = context.dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map { preferences ->
+            preferences[JWT_KEY]
+        }
+
+    fun getToken() = cachedToken
+
+    suspend fun saveToken(token: String) {
+        cachedToken = token
+        context.dataStore.edit { preferences ->
+            preferences[JWT_KEY] = token
+        }
     }
 
-    fun clear() {
-        prefs.edit().clear().apply()
+    suspend fun clear() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
     }
 }
