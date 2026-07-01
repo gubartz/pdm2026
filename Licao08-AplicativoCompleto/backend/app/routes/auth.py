@@ -27,9 +27,9 @@ def login():
             ApiResponse(
                 dataResponse=None,
                 message=None,
-                response_code=403,
+                response_code=401,
             ).to_dict()
-        ), 403
+        ), 401
 
     access_token = create_access_token(identity=usuario["id"])
     return {"token": access_token}
