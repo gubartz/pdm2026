@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.edu.ifsp.hto.htoipdm.filmes.UiEventManager
 import br.edu.ifsp.hto.htoipdm.filmes.features.UiEvent
+import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthRepository
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.LoginRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    val loginRepository: LoginRepository,
+    private val loginRepository: LoginRepository,
+    private val authRepository: AuthRepository,
     private val uiEventManager: UiEventManager
 ) : ViewModel() {
     var usuario by mutableStateOf("")
@@ -45,26 +47,21 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-
     fun doLogin() {
-
         viewModelScope.launch {
 
-            _uiState.update {
-                it.copy(loading = true)
-            }
+            _uiState.update { it.copy(loading = true) }
 
             val result = loginRepository.login(
-                _uiState.value.usuario, _uiState.value.senha
+                _uiState.value.usuario,
+                _uiState.value.senha
             )
 
-            _uiState.update {
-                it.copy(loading = false)
-            }
+            _uiState.update { it.copy(loading = false) }
 
             result.fold(
-                onSuccess = {
-                    _events.emit(LoginEvent.NavigateToHome)
+                onSuccess = { response ->
+                    authRepository.login(response.token)
                 },
                 onFailure = {
                     uiEventManager.emit(
@@ -72,8 +69,8 @@ class LoginViewModel @Inject constructor(
                             it.message ?: "Login failed"
                         )
                     )
-                })
+                }
+            )
         }
     }
-
 }

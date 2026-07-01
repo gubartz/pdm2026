@@ -1,4 +1,4 @@
-package br.edu.ifsp.hto.htoipdm.filmes.ui.navigation
+package br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,6 +10,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import br.edu.ifsp.hto.htoipdm.filmes.features.login.LoginScreen
 import br.edu.ifsp.hto.htoipdm.filmes.features.telaprincipal.TelaPrincipalScreen
+import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthViewModel
 
 @Composable
 fun AppNavigation() {
@@ -20,7 +21,6 @@ fun AppNavigation() {
 
     LaunchedEffect(authState) {
         when (authState) {
-
             AuthState.Authenticated -> {
                 backStack.clear()
                 backStack.add(TelaPrincipalRoute)
@@ -55,11 +55,7 @@ fun AppNavigation() {
                 }
 
                 is LoginRoute -> NavEntry(key) {
-                    LoginScreen(
-                        onLoginSuccess = {
-                            backStack.add(TelaPrincipalRoute)
-                        }
-                    )
+                    LoginScreen()
                 }
 
                 is TelaPrincipalRoute -> NavEntry(key) {

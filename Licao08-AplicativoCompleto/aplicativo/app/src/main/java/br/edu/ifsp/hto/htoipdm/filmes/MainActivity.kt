@@ -11,13 +11,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.edu.ifsp.hto.htoipdm.filmes.features.UiEvent
-import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.AppNavigation
+import br.edu.ifsp.hto.htoipdm.filmes.features.telaprincipal.TelaPrincipalScreen
+import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthViewModel
+import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.AppNavigation
+import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.AuthState
 import br.edu.ifsp.hto.htoipdm.filmes.ui.theme.GerenciadorDeFilmesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,9 +49,11 @@ class MainActivity : ComponentActivity() {
 fun App(uiEventManager: UiEventManager) {
     val snackbarHostState = remember { SnackbarHostState() }
 
+    val authViewModel: AuthViewModel = hiltViewModel()
+    val authState by authViewModel.authState.collectAsState()
+
     LaunchedEffect(Unit) {
         uiEventManager.events.collect { event ->
-
             when (event) {
 
                 is UiEvent.Snackbar -> {
@@ -63,13 +69,11 @@ fun App(uiEventManager: UiEventManager) {
         }
     }
 
-
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackbarHostState)
         }
     ) { innerPadding ->
-
         Box(
             Modifier
                 .padding(innerPadding)

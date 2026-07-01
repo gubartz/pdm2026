@@ -26,22 +26,10 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess: () -> Unit,
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val uiState by loginViewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
-
-    LaunchedEffect(Unit) {
-        loginViewModel.events.collect { event ->
-            when (event) {
-                LoginEvent.NavigateToHome -> {
-                    onLoginSuccess()
-                }
-            }
-        }
-    }
-
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -61,13 +49,13 @@ fun LoginScreen(
             OutlinedTextField(
                 value = uiState.usuario,
                 onValueChange = loginViewModel::onLoginChange,
-                label = { Text("User") }
+                label = { Text("Usuário") }
             )
 
             OutlinedTextField(
                 value = uiState.senha,
                 onValueChange = loginViewModel::onSenhaChange,
-                label = { Text("Password") },
+                label = { Text("Senha") },
                 visualTransformation = PasswordVisualTransformation()
             )
 
@@ -89,7 +77,5 @@ fun LoginScreen(
 @Preview
 @Composable
 private fun LoginScreenScreenPreview() {
-    LoginScreen(
-        onLoginSuccess = {}
-    )
+    LoginScreen()
 }

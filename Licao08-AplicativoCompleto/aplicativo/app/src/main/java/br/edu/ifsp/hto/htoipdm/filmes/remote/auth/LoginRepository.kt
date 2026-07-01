@@ -3,11 +3,8 @@ package br.edu.ifsp.hto.htoipdm.filmes.remote.auth
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
-    private val authService: AuthService,
-    private val tokenManager: TokenManager
+    private val authService: AuthService
 ) {
-
-
     suspend fun login(
         usuario: String,
         senha: String
@@ -21,24 +18,16 @@ class LoginRepository @Inject constructor(
 
             if (response.isSuccessful) {
 
-                val body = response.body()
-
-                if (body != null) {
-                    tokenManager.saveToken(body.token)
-                    Result.success(body)
-                } else {
-                    Result.failure(Exception("Empty response"))
-                }
+                response.body()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response"))
 
             } else {
-                Result.failure(
-                    Exception("Invalid username or password")
-                )
+                Result.failure(Exception("Invalid username or password"))
             }
 
         } catch (e: Exception) {
             Result.failure(e)
-
         }
     }
 }

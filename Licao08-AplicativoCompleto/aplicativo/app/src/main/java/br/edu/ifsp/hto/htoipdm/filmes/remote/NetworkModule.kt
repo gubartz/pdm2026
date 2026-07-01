@@ -2,7 +2,6 @@ package br.edu.ifsp.hto.htoipdm.filmes.remote
 
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthRepository
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthService
-import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.LoginRepository
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.TokenManager
 import br.edu.ifsp.hto.htoipdm.filmes.remote.interceptors.AuthInterceptor
 import com.google.gson.Gson
@@ -20,7 +19,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ApiClient {
+object NetworkModule {
     val BASE_URL = "http://10.0.2.2:5000/"
 
     @Provides
@@ -69,7 +68,6 @@ object ApiClient {
         authRepository: AuthRepository
     ): AuthInterceptor {
         return AuthInterceptor(
-            tokenManager = tokenManager,
             authRepository = authRepository
         )
     }
