@@ -22,11 +22,6 @@ import br.edu.ifsp.hto.htoipdm.filmes.ui.theme.GerenciadorDeFilmesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-val LocalUiEventManager =
-    staticCompositionLocalOf<UiEventManager> {
-        error("UiEventManager not provided")
-    }
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
@@ -35,30 +30,22 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
         enableEdgeToEdge()
-
         setContent {
-            CompositionLocalProvider(
-                LocalUiEventManager provides uiEventManager
-            ) {
-                GerenciadorDeFilmesTheme {
-                    App()
-                }
+            GerenciadorDeFilmesTheme {
+                App(
+                    uiEventManager = uiEventManager
+                )
             }
         }
     }
 }
 
 @Composable
-fun App() {
+fun App(uiEventManager: UiEventManager) {
     val snackbarHostState = remember { SnackbarHostState() }
 
-    val uiEventManager = LocalUiEventManager.current
-
     LaunchedEffect(Unit) {
-
         uiEventManager.events.collect { event ->
 
             when (event) {

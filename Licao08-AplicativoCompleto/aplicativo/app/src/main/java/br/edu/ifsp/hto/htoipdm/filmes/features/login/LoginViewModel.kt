@@ -62,15 +62,17 @@ class LoginViewModel @Inject constructor(
                 it.copy(loading = false)
             }
 
-            result.fold(onSuccess = {
-                _events.emit(LoginEvent.NavigateToHome)
-            }, onFailure = {
-                uiEventManager.emit(
-                    UiEvent.Snackbar(
-                        it.message ?: "Login failed"
+            result.fold(
+                onSuccess = {
+                    _events.emit(LoginEvent.NavigateToHome)
+                },
+                onFailure = {
+                    uiEventManager.emit(
+                        UiEvent.Snackbar(
+                            it.message ?: "Login failed"
+                        )
                     )
-                )
-            })
+                })
         }
     }
 
