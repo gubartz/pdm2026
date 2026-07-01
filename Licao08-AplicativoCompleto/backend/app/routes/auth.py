@@ -7,10 +7,10 @@ from app.model.api_response import ApiResponse
 bp = Blueprint("auth", __name__)
 
 
-@bp.post("/auth")
+@bp.post("/auth/login")
 def login():
     data = request.get_json()
-    email = data["email"]
+    login = data["login"]
     senha = data["senha"]
 
     db = get_db()
@@ -21,7 +21,7 @@ def login():
       AND senha = :senha
     """
 
-    usuario = db.execute(sql, {"email": email, "senha": senha}).fetchone()
+    usuario = db.execute(sql, {"email": login, "senha": senha}).fetchone()
     if not usuario:
         return jsonify(
             ApiResponse(
@@ -32,4 +32,4 @@ def login():
         ), 403
 
     access_token = create_access_token(identity=usuario["id"])
-    return {"access_token": access_token}
+    return {"token": access_token}
