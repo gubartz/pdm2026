@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, decode_token
 
 from app.db import get_db
 from app.model.api_response import ApiResponse
@@ -31,5 +31,6 @@ def login():
             ).to_dict()
         ), 401
 
-    access_token = create_access_token(identity=usuario["id"])
-    return {"token": access_token}
+    access_token = create_access_token(identity=str(usuario["id"]))
+    claims = decode_token(access_token)
+    return {"token": access_token, "exp": claims["exp"]}
