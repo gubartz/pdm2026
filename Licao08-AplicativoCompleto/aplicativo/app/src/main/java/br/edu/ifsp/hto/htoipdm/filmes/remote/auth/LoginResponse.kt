@@ -2,5 +2,5 @@ package br.edu.ifsp.hto.htoipdm.filmes.remote.auth
 
 data class LoginResponse(
     val token: String,
-    val nome: String
+    val exp: String
 )

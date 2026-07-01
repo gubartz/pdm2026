@@ -3,9 +3,11 @@ package br.edu.ifsp.hto.htoipdm.filmes.remote.auth
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
-    private val auhService: AuthService,
+    private val authService: AuthService,
     private val tokenManager: TokenManager
 ) {
+
+
     suspend fun login(
         usuario: String,
         senha: String
@@ -13,7 +15,7 @@ class LoginRepository @Inject constructor(
 
         return try {
 
-            val response = auhService.login(
+            val response = authService.login(
                 LoginRequest(usuario, senha)
             )
 
@@ -23,7 +25,6 @@ class LoginRepository @Inject constructor(
 
                 if (body != null) {
                     tokenManager.saveToken(body.token)
-
                     Result.success(body)
                 } else {
                     Result.failure(Exception("Empty response"))
@@ -36,7 +37,6 @@ class LoginRepository @Inject constructor(
             }
 
         } catch (e: Exception) {
-
             Result.failure(e)
 
         }

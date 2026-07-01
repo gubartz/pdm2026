@@ -1,6 +1,8 @@
 package br.edu.ifsp.hto.htoipdm.filmes.remote
 
+import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthRepository
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthService
+import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.LoginRepository
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.TokenManager
 import br.edu.ifsp.hto.htoipdm.filmes.remote.interceptors.AuthInterceptor
 import com.google.gson.Gson
@@ -13,11 +15,45 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiClient {
+    val BASE_URL = "http://10.0.2.2:5000/"
+
+    @Provides
+    @Named("login")
+    fun provideLoginRetrofit(
+        gson: Gson,
+        @Named("loginClient") okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(
+                GsonConverterFactory.create(gson)
+            )
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    @Named("api")
+    fun provideApiRetrofit(
+        @Named("authClient") okHttpClient: OkHttpClient,
+        gson: Gson
+    ): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(
+                GsonConverterFactory.create(gson)
+            )
+            .build()
+    }
+
     @Provides
     @Singleton
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
@@ -29,9 +65,13 @@ object ApiClient {
     @Provides
     @Singleton
     fun provideAuthInterceptor(
-        tokenManager: TokenManager
+        tokenManager: TokenManager,
+        authRepository: AuthRepository
     ): AuthInterceptor {
-        return AuthInterceptor(tokenManager)
+        return AuthInterceptor(
+            tokenManager = tokenManager,
+            authRepository = authRepository
+        )
     }
 
     @Provides
@@ -43,7 +83,8 @@ object ApiClient {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(
+    @Named("authClient")
+    fun provideOkHttpClientWithAuthInterceptor(
         loggingInterceptor: HttpLoggingInterceptor,
         authInterceptor: AuthInterceptor
     ): OkHttpClient {
@@ -53,26 +94,21 @@ object ApiClient {
             .build()
     }
 
-
     @Provides
     @Singleton
-    fun provideRetrofit(
-        okHttpClient: OkHttpClient,
-        gson: Gson
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5000/")
-            .client(okHttpClient)
-            .addConverterFactory(
-                GsonConverterFactory.create(gson)
-            )
+    @Named("loginClient")
+    fun provideOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
             .build()
     }
 
     @Provides
     @Singleton
     fun provideAuthService(
-        retrofit: Retrofit
+        @Named("login") retrofit: Retrofit
     ): AuthService {
         return retrofit.create(AuthService::class.java)
     }

@@ -40,18 +40,19 @@ class TokenManager @Inject constructor(
             preferences[JWT_KEY]
         }
 
-    fun getToken() = cachedToken
+    fun getToken(): String? = cachedToken
 
     suspend fun saveToken(token: String) {
         cachedToken = token
-        context.dataStore.edit { preferences ->
-            preferences[JWT_KEY] = token
+        context.dataStore.edit {
+            it[JWT_KEY] = token
         }
     }
 
     suspend fun clear() {
-        context.dataStore.edit { preferences ->
-            preferences.clear()
+        cachedToken = null
+        context.dataStore.edit {
+            it.clear()
         }
     }
 }
