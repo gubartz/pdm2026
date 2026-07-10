@@ -11,18 +11,8 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 
 @Composable
 fun SplashScreen(
-    onAuthenticated: () -> Unit,
-    onUnauthenticated: () -> Unit,
     viewModel: SplashViewModel = hiltViewModel()
 ) {
-
-    LaunchedEffect(Unit) {
-        if (viewModel.hasToken()) {
-            onAuthenticated()
-        } else {
-            onUnauthenticated()
-        }
-    }
 
     Box(
         modifier = Modifier.fillMaxSize(),

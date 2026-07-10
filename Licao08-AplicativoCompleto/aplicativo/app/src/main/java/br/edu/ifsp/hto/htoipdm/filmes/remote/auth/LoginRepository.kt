@@ -1,5 +1,6 @@
 package br.edu.ifsp.hto.htoipdm.filmes.remote.auth
 
+import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.AuthState
 import javax.inject.Inject
 
 class LoginRepository @Inject constructor(
@@ -30,4 +31,5 @@ class LoginRepository @Inject constructor(
             Result.failure(e)
         }
     }
+
 }

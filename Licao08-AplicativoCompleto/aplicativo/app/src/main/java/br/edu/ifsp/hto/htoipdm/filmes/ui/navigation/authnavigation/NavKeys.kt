@@ -7,8 +7,4 @@ import kotlinx.serialization.Serializable
 data object LoginRoute : NavKey
 
 @Serializable
-data object SplashRoute : NavKey
-
-
-@Serializable
 data object TelaPrincipalRoute : NavKey

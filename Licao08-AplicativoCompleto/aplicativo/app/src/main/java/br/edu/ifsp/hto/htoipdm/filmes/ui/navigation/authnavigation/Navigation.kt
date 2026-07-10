@@ -14,45 +14,13 @@ import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthViewModel
 
 @Composable
 fun AppNavigation() {
-    val backStack = rememberNavBackStack(SplashRoute)
-
-    val authViewModel: AuthViewModel = hiltViewModel()
-    val authState by authViewModel.authState.collectAsState()
-
-    LaunchedEffect(authState) {
-        when (authState) {
-            AuthState.Authenticated -> {
-                backStack.clear()
-                backStack.add(TelaPrincipalRoute)
-            }
-
-            AuthState.Unauthenticated -> {
-                backStack.clear()
-                backStack.add(LoginRoute)
-            }
-
-            AuthState.Loading -> {}
-        }
-    }
+    val backStack = rememberNavBackStack(LoginRoute)
 
     NavDisplay(
         backStack = backStack,
         onBack = { backStack.removeLastOrNull() },
         entryProvider = { key ->
             when (key) {
-
-                is SplashRoute -> NavEntry(key) {
-                    SplashScreen(
-                        onAuthenticated = {
-                            backStack.clear()
-                            backStack.add(TelaPrincipalRoute)
-                        },
-                        onUnauthenticated = {
-                            backStack.clear()
-                            backStack.add(LoginRoute)
-                        }
-                    )
-                }
 
                 is LoginRoute -> NavEntry(key) {
                     LoginScreen()

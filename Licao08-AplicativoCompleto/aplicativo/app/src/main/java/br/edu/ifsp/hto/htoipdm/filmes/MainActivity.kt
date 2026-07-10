@@ -1,6 +1,7 @@
 package br.edu.ifsp.hto.htoipdm.filmes
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,10 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import br.edu.ifsp.hto.htoipdm.filmes.features.UiEvent
-import br.edu.ifsp.hto.htoipdm.filmes.features.telaprincipal.TelaPrincipalScreen
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthViewModel
 import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.AppNavigation
 import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.AuthState
+import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.SplashScreen
+import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.mainnavigation.MainNavigation
 import br.edu.ifsp.hto.htoipdm.filmes.ui.theme.GerenciadorDeFilmesTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -46,10 +48,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun App(uiEventManager: UiEventManager) {
+fun App(
+    uiEventManager: UiEventManager,
+    authViewModel: AuthViewModel = hiltViewModel()
+) {
     val snackbarHostState = remember { SnackbarHostState() }
-
-    val authViewModel: AuthViewModel = hiltViewModel()
     val authState by authViewModel.authState.collectAsState()
 
     LaunchedEffect(Unit) {
@@ -79,7 +82,16 @@ fun App(uiEventManager: UiEventManager) {
                 .padding(innerPadding)
                 .safeDrawingPadding()
         ) {
-            AppNavigation()
+            when (authState) {
+                AuthState.Loading ->
+                    SplashScreen()
+
+                AuthState.Unauthenticated ->
+                    AppNavigation()
+
+                AuthState.Authenticated ->
+                    MainNavigation()
+            }
         }
     }
 }
