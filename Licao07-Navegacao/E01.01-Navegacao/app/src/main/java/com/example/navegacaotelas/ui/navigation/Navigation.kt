@@ -10,7 +10,7 @@ import com.example.navegacaotelas.TelaPrincipalScreen
 //TODO(10) Criamos um composable para a navegação.
 @Composable
 fun AppNavigation() {
-    //TODO(11) Declarar uma variávle que terá o histórico da navegação o backStack. O parâmetro
+    //TODO(11) Declarar uma variável que terá o histórico da navegação o backStack. O parâmetro
     // TelaPrincipalRoute indica a tela incial de navegação.
     val backStack = rememberNavBackStack(TelaPrincipalRoute)
 
