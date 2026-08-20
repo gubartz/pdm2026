@@ -48,7 +48,7 @@ fun TelaPrincipalScreen() {
         BottomNavItem(
             route = BottomNavKey.ListFilmesRoutes2,
             icon = Icons.Default.Desk,
-            label = "Filmes"
+            label = "Filmes 2"
         ),
         BottomNavItem(
             route = BottomNavKey.ListFilmesRoutes2,
