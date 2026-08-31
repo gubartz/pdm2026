@@ -29,8 +29,10 @@ class AuthRepository @Inject constructor(
     }
 
     suspend fun initialize() {
+        tokenManager.initialize()
+
         _authState.value =
-            if (tokenManager.token.first() != null)
+            if (tokenManager.getToken() != null)
                 AuthState.Authenticated
             else
                 AuthState.Unauthenticated

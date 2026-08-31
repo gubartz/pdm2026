@@ -3,6 +3,7 @@ package br.edu.ifsp.hto.htoipdm.filmes.remote
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthRepository
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthService
 import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.TokenManager
+import br.edu.ifsp.hto.htoipdm.filmes.remote.filme.FilmeService
 import br.edu.ifsp.hto.htoipdm.filmes.remote.interceptors.AuthInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -109,5 +110,13 @@ object NetworkModule {
         @Named("login") retrofit: Retrofit
     ): AuthService {
         return retrofit.create(AuthService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFilmeService(
+        @Named("api") retrofit: Retrofit
+    ): FilmeService {
+        return retrofit.create(FilmeService::class.java)
     }
 }

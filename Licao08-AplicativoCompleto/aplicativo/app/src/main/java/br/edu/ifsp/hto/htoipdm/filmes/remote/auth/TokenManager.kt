@@ -42,8 +42,13 @@ class TokenManager @Inject constructor(
 
     fun getToken(): String? = cachedToken
 
+    suspend fun initialize() {
+        cachedToken = token.first()
+    }
+
     suspend fun saveToken(token: String) {
         cachedToken = token
+
         context.dataStore.edit {
             it[JWT_KEY] = token
         }
@@ -51,6 +56,7 @@ class TokenManager @Inject constructor(
 
     suspend fun clear() {
         cachedToken = null
+
         context.dataStore.edit {
             it.clear()
         }

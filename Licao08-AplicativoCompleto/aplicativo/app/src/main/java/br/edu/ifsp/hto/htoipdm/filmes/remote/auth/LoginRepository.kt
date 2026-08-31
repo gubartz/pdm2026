@@ -21,10 +21,10 @@ class LoginRepository @Inject constructor(
 
                 response.body()?.let {
                     Result.success(it)
-                } ?: Result.failure(Exception("Empty response"))
+                } ?: Result.failure(Exception("Resposta Vazia"))
 
             } else {
-                Result.failure(Exception("Invalid username or password"))
+                Result.failure(Exception("Usuário ou senha Incorretos"))
             }
 
         } catch (e: Exception) {
