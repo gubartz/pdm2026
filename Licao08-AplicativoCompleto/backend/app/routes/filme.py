@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import jwt_required
 
 from app.db import get_db
 from app.model.api_response import ApiResponse
@@ -7,6 +8,7 @@ bp = Blueprint("filme", __name__)
 
 
 @bp.route("/filmes", methods=["GET"])
+@jwt_required()
 def listar_filmes():
     db = get_db()
 
