@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, send_from_directory
 from flask_jwt_extended import jwt_required
 
 from app.db import get_db
@@ -8,7 +8,7 @@ bp = Blueprint("filme", __name__)
 
 
 @bp.route("/filmes", methods=["GET"])
-@jwt_required()
+# @jwt_required()
 def listar_filmes():
     db = get_db()
 
@@ -19,13 +19,16 @@ def listar_filmes():
          , duracao AS f_duracao
          , titulo_original AS f_titulo_original
          , sinopse AS f_sinopse
+         , poster_path AS f_poster_path
          , genero.id AS g_id
          , genero.descricao AS g_descricao
     FROM filme
        , filme_genero
        , genero
     WHERE filme_genero.filme_id = filme.id
-      ANd filme_genero.genero_id = genero.id"""
+      ANd filme_genero.genero_id = genero.id
+    ORDER BY titulo
+    LIMIT 1"""
 
     filmes = db.execute(sql).fetchall()
 
@@ -41,6 +44,7 @@ def listar_filmes():
                 "data_lancamento": filme["f_data_lancamento"],
                 "duracao": filme["f_duracao"],
                 "sinopse": filme["f_sinopse"],
+                "poster_path": filme["f_poster_path"],
                 "generos": [],
             },
         )
@@ -158,3 +162,8 @@ def inserir_filme():
         ),
         200,
     )
+
+
+@bp.route("/posters/<filename>", methods=["GET"])
+def poster(filename):
+    return send_from_directory("posters", filename)
