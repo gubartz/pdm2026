@@ -9,4 +9,7 @@ sealed interface BottomNavKey : NavKey {
 
     @Serializable
     data object ListFilmesRoutes2 : BottomNavKey
+
+    @Serializable
+    data object InserirFilmeRoute : NavKey
 }

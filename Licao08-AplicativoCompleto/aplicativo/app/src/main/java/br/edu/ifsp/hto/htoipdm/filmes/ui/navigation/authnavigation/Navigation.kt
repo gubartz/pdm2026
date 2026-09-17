@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
-import br.edu.ifsp.hto.htoipdm.filmes.features.login.LoginScreen
+import br.edu.ifsp.hto.htoipdm.filmes.feature.login.LoginScreen
 
 @Composable
 fun AppNavigation() {

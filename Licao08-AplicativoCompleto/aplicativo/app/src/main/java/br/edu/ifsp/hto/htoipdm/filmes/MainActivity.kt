@@ -1,7 +1,6 @@
 package br.edu.ifsp.hto.htoipdm.filmes
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -18,8 +17,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import br.edu.ifsp.hto.htoipdm.filmes.features.UiEvent
-import br.edu.ifsp.hto.htoipdm.filmes.remote.auth.AuthViewModel
+import br.edu.ifsp.hto.htoipdm.filmes.feature.UiEvent
+import br.edu.ifsp.hto.htoipdm.filmes.feature.auth.AuthViewModel
 import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.AppNavigation
 import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.AuthState
 import br.edu.ifsp.hto.htoipdm.filmes.ui.navigation.authnavigation.SplashScreen

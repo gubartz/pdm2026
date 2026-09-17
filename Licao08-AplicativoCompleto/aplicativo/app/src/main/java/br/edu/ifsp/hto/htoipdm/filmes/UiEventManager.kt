@@ -1,6 +1,6 @@
 package br.edu.ifsp.hto.htoipdm.filmes
 
-import br.edu.ifsp.hto.htoipdm.filmes.features.UiEvent
+import br.edu.ifsp.hto.htoipdm.filmes.feature.UiEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
