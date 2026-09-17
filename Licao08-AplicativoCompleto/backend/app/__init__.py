@@ -24,9 +24,10 @@ def create_app(test_config=None):
 
     db.init_app(app)
 
-    from .routes import filme, auth
+    from .routes import filme, auth, genero
 
     app.register_blueprint(filme.bp)
     app.register_blueprint(auth.bp)
+    app.register_blueprint(genero.bp)
 
     return app

@@ -8,7 +8,7 @@ bp = Blueprint("filme", __name__)
 
 
 @bp.route("/filmes", methods=["GET"])
-# @jwt_required()
+@jwt_required()
 def listar_filmes():
     db = get_db()
 
@@ -28,7 +28,7 @@ def listar_filmes():
     WHERE filme_genero.filme_id = filme.id
       ANd filme_genero.genero_id = genero.id
     ORDER BY titulo
-    LIMIT 1"""
+    LIMIT 5"""
 
     filmes = db.execute(sql).fetchall()
 

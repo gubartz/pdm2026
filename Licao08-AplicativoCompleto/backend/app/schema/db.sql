@@ -21,7 +21,8 @@ CREATE TABLE filme(
     titulo_original TEXT NOT NULL,
     data_lancamento TEXT NOT NULL,
     duracao INT NOT NULL,
-    sinopse TEXT NOT NULL
+    sinopse TEXT NOT NULL,
+    poster_path TEXT
 );
 
 CREATE TABLE classificacao(
