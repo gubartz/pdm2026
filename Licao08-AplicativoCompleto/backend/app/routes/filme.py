@@ -27,8 +27,7 @@ def listar_filmes():
        , genero
     WHERE filme_genero.filme_id = filme.id
       ANd filme_genero.genero_id = genero.id
-    ORDER BY titulo
-    LIMIT 5"""
+    ORDER BY titulo"""
 
     filmes = db.execute(sql).fetchall()
 
@@ -66,6 +65,7 @@ def listar_filmes():
 
 
 @bp.route("/filme/<int:id>", methods=["GET"])
+@jwt_required()
 def listar_filme(id: int):
     db = get_db()
 
@@ -132,15 +132,11 @@ def listar_filme(id: int):
 
 
 @bp.route("/filme", methods=["POST"])
+@jwt_required()
 def inserir_filme():
     db = get_db()
 
     data = request.get_json()
-    titulo = data["titulo"]
-    titulo_original = data["titulo_original"]
-    data_lancamento = data["data_lancamento"]
-    duracao = data["duracao"]
-    sinopse = data["sinopse"]
     generos = data.pop("generos")
 
     sql = """
@@ -149,15 +145,24 @@ def inserir_filme():
     """
 
     cursor = db.execute(sql, data)
-    cursor.lastrowid
+    sql = """
+        INSERT INTO filme_genero(filme_id, genero_id)
+        VALUES (:filme_id, :genero_id)
+    """
+    for genero in generos:
+        insert = {"filme_id": cursor.lastrowid, "genero_id": genero["id"]}
+        cursor = db.execute(sql, insert)
     db.commit()
+
+    data["generos"] = generos
+    data["id"] = cursor.lastrowid
 
     return (
         jsonify(
             ApiResponse(
-                dataResponse=list([cursor.lastrowid]),
+                dataResponse=data,
                 message=None,
-                response_code=400,
+                response_code=200,
             ).to_dict()
         ),
         200,
