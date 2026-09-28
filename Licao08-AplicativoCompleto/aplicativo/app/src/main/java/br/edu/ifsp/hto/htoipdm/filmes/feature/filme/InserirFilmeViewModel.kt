@@ -83,7 +83,8 @@ class InserirFilmeViewModel @Inject constructor(
                 tituloOriginal = estado.tituloOriginal,
                 dataLancamento = estado.dataLancamento,
                 duracao = estado.duracao.toLong(),
-                sinopse = estado.sinopse
+                sinopse = estado.sinopse,
+                generos = estado.generosSelecionados
             )
 
             val resultado = filmeRepository.inserir(request)

@@ -14,7 +14,7 @@ data class Filme(
     val sinopse: String,
     val generos: List<Genero>,
     @SerializedName("poster_path")
-    val posterPath: String?
+    val posterPath: String?,
 ) {
     fun formatDuracao(): String {
         val horas = duracao / 60
